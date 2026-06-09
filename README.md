@@ -1,5 +1,7 @@
 # NECTARWORLD
 
+<img width="1512" height="802" alt="image" src="https://github.com/user-attachments/assets/79f12d88-ffc8-45ba-9273-33cfed254de5" />
+
 **A live Redis instance, rendered as an explorable alien world.**
 
 A real `redis-server` runs locally, fed by a simulated social app ("Nectar": sessions,
