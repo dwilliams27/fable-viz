@@ -1,0 +1,4 @@
+node_modules/
+dump.rdb
+dist/
+.DS_Store

@@ -1,0 +1,21 @@
+{
+  "name": "fable-viz",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/start.mjs",
+    "redis": "redis-server --port 6390 --save '' --appendonly no --notify-keyspace-events Exe",
+    "bridge": "node server/bridge.mjs",
+    "dev": "vite --port 5173",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "ioredis": "^5.4.1",
+    "three": "^0.170.0",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}

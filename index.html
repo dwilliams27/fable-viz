@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>NECTARWORLD — a live Redis organism</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root {
+    --cyan: #4de8ff; --amber: #ffb347; --magenta: #ff4dd2;
+    --green: #7dff6a; --violet: #b07aff; --gold: #ffe44d;
+  }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #04060d; }
+  canvas { display: block; }
+  #app { position: fixed; inset: 0; }
+  .hud { position: fixed; font-family: ui-monospace, 'SF Mono', Menlo, monospace; color: #bfe9f2;
+         text-shadow: 0 0 8px rgba(77,232,255,.35); pointer-events: none; user-select: none; }
+
+  #stats { top: 14px; left: 16px; font-size: 12px; line-height: 1.7; letter-spacing: .04em; }
+  #stats b { color: #fff; font-weight: 600; }
+  #stats .dim { color: #5d7f8c; }
+
+  #legend { top: 14px; right: 16px; font-size: 11px; line-height: 1.8; text-align: right; opacity: .9; }
+  #legend .sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-left: 7px;
+                vertical-align: -1px; box-shadow: 0 0 6px currentColor; background: currentColor; }
+
+  #ticker { bottom: 16px; left: 16px; font-size: 11px; line-height: 1.65; max-width: 46vw; }
+  #ticker div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: opacity .4s; }
+  #ticker .verb { font-weight: 700; }
+
+  #reticle { top: 50%; left: 50%; width: 4px; height: 4px; border-radius: 50%;
+             transform: translate(-50%,-50%); background: rgba(255,255,255,.85);
+             box-shadow: 0 0 6px rgba(255,255,255,.9); }
+
+  #inspect { left: 50%; top: 56%; transform: translateX(-50%); text-align: center;
+             font-size: 12px; line-height: 1.6; opacity: 0; transition: opacity .15s; }
+  #inspect .k { font-size: 14px; font-weight: 700; color: #fff; }
+  #inspect .t { letter-spacing: .12em; text-transform: uppercase; font-size: 10px; }
+
+  #zone { bottom: 18px; right: 18px; font-size: 13px; letter-spacing: .25em; text-transform: uppercase;
+          color: #8fd4e2; opacity: 0; transition: opacity 1.2s; text-align: right; }
+  #zone .sub { font-size: 9px; letter-spacing: .18em; color: #557684; display: block; margin-top: 3px; }
+
+  #toast { top: 64px; left: 50%; transform: translateX(-50%); font-size: 12px; letter-spacing: .2em;
+           text-transform: uppercase; color: #ffe44d; opacity: 0; transition: opacity .5s; }
+
+  #intro { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+           background: radial-gradient(ellipse at 50% 40%, rgba(10,22,38,.92), rgba(2,4,9,.97));
+           z-index: 10; cursor: pointer; font-family: ui-monospace, Menlo, monospace; color: #bfe9f2;
+           transition: opacity .6s; }
+  #intro.hidden { opacity: 0; pointer-events: none; }
+  #intro .card { text-align: center; max-width: 560px; padding: 0 24px; }
+  #intro h1 { font-size: 26px; letter-spacing: .42em; font-weight: 600; color: #fff;
+              text-shadow: 0 0 24px rgba(77,232,255,.8); margin: 0 0 6px; }
+  #intro h2 { font-size: 11px; letter-spacing: .3em; color: #6fa8b8; font-weight: 400; margin: 0 0 28px; }
+  #intro .keys { font-size: 12px; line-height: 2; color: #8fc4d4; }
+  #intro .keys b { color: #fff; background: rgba(77,232,255,.12); border: 1px solid rgba(77,232,255,.3);
+                   border-radius: 4px; padding: 1px 7px; margin: 0 2px; font-weight: 600; }
+  #intro .enter { margin-top: 30px; font-size: 13px; letter-spacing: .25em; color: #ffe44d;
+                  animation: breathe 2.4s ease-in-out infinite; }
+  #intro .conn { margin-top: 14px; font-size: 10px; letter-spacing: .15em; color: #557684; }
+  @keyframes breathe { 50% { opacity: .35; } }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<div id="intro">
+  <div class="card">
+    <h1>NECTARWORLD</h1>
+    <h2>A LIVE REDIS INSTANCE, RENDERED AS AN ALIEN ORGANISM</h2>
+    <div class="keys">
+      <b>W A S D</b> walk &nbsp; <b>SHIFT</b> sprint &nbsp; <b>F</b> fly &nbsp; <b>SPACE / C</b> rise / sink<br/>
+      look at any organism to read its key &nbsp;·&nbsp; every light you see is a real command
+    </div>
+    <div class="enter">CLICK TO DESCEND</div>
+    <div class="conn" id="connstate">connecting to the bridge…</div>
+  </div>
+</div>
+
+<div class="hud" id="stats"></div>
+<div class="hud" id="legend"></div>
+<div class="hud" id="ticker"></div>
+<div class="hud" id="reticle"></div>
+<div class="hud" id="inspect"></div>
+<div class="hud" id="zone"></div>
+<div class="hud" id="toast"></div>
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
